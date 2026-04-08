@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="File Fight Game"
-run/main_scene="res://test.tscn"
-config/features=PackedStringArray("4.2", "Forward Plus")
+run/main_scene="uid://3plvgo583k7r"
+config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
 [display]

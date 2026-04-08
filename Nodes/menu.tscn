@@ -1,0 +1,156 @@
+[gd_scene format=3 uid="uid://3plvgo583k7r"]
+
+[ext_resource type="Script" uid="uid://7qtkcgw2x1g4" path="res://Scripts/menu.gd" id="1_873wa"]
+
+[sub_resource type="Theme" id="Theme_m3l8m"]
+
+[node name="Menu" type="Node2D" unique_id=1174642782]
+script = ExtResource("1_873wa")
+
+[node name="Title" type="Label" parent="." unique_id=803715171]
+offset_right = 1920.0
+offset_bottom = 500.0
+theme_override_font_sizes/font_size = 300
+text = "FILE FIGHT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=237055948]
+offset_top = 500.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+theme = SubResource("Theme_m3l8m")
+
+[node name="MainButtons" type="VBoxContainer" parent="CenterContainer" unique_id=2139326395]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Play" type="Button" parent="CenterContainer/MainButtons" unique_id=744199993]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Quit")
+theme_override_font_sizes/font_size = 75
+text = "Play"
+
+[node name="Settings" type="Button" parent="CenterContainer/MainButtons" unique_id=302291200]
+layout_mode = 2
+theme_override_font_sizes/font_size = 75
+text = "Settings"
+
+[node name="Credit" type="Button" parent="CenterContainer/MainButtons" unique_id=276977506]
+layout_mode = 2
+theme_override_font_sizes/font_size = 75
+text = "Credits"
+
+[node name="Quit" type="Button" parent="CenterContainer/MainButtons" unique_id=1527844122]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../Play")
+theme_override_font_sizes/font_size = 75
+text = "Quit"
+
+[node name="SettingsMenu" type="VBoxContainer" parent="CenterContainer" unique_id=785814342]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Back" type="Button" parent="CenterContainer/SettingsMenu" unique_id=1530521420]
+custom_minimum_size = Vector2(353, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_top = NodePath("../SfxVolSlider")
+theme_override_font_sizes/font_size = 75
+text = "Back"
+
+[node name="Fullscreen" type="CheckBox" parent="CenterContainer/SettingsMenu" unique_id=1175170494]
+layout_mode = 2
+theme_override_font_sizes/font_size = 75
+text = "Fullscreen
+"
+
+[node name="MainVolSlider" type="HSlider" parent="CenterContainer/SettingsMenu" unique_id=1659776924]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+
+[node name="Label" type="Label" parent="CenterContainer/SettingsMenu/MainVolSlider" unique_id=871383545]
+custom_minimum_size = Vector2(484, 55)
+layout_mode = 0
+offset_top = -16.0
+offset_right = 484.0
+offset_bottom = 39.0
+theme_override_font_sizes/font_size = 40
+text = "Main Volume"
+horizontal_alignment = 1
+
+[node name="MusicVolSlider" type="HSlider" parent="CenterContainer/SettingsMenu" unique_id=251012720]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+
+[node name="Label" type="Label" parent="CenterContainer/SettingsMenu/MusicVolSlider" unique_id=1183862204]
+custom_minimum_size = Vector2(484, 55)
+layout_mode = 0
+offset_top = -16.0
+offset_right = 484.0
+offset_bottom = 39.0
+theme_override_font_sizes/font_size = 40
+text = "Music Volume"
+horizontal_alignment = 1
+
+[node name="SfxVolSlider" type="HSlider" parent="CenterContainer/SettingsMenu" unique_id=1722314717]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../Back")
+max_value = 1.0
+step = 0.01
+
+[node name="Label" type="Label" parent="CenterContainer/SettingsMenu/SfxVolSlider" unique_id=199909095]
+custom_minimum_size = Vector2(484, 55)
+layout_mode = 0
+offset_top = -16.0
+offset_right = 484.0
+offset_bottom = 39.0
+theme_override_font_sizes/font_size = 40
+text = "SFX Volume"
+horizontal_alignment = 1
+
+[node name="CreditsMenu" type="VBoxContainer" parent="CenterContainer" unique_id=1765750447]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="CenterContainer/CreditsMenu" unique_id=1810584752]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 120
+text = "Here are the credits"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Back" type="Button" parent="CenterContainer/CreditsMenu" unique_id=1907838023]
+custom_minimum_size = Vector2(353, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 75
+text = "Back"
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1523015194]
+z_index = -4096
+offset_left = -38.0
+offset_top = -34.0
+offset_right = 1964.0
+offset_bottom = 1111.0
+mouse_filter = 2
+color = Color(0.2662643, 0.27732024, 0.27686265, 1)
+
+[connection signal="pressed" from="CenterContainer/MainButtons/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="CenterContainer/MainButtons/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="CenterContainer/MainButtons/Credit" to="." method="_on_credit_pressed"]
+[connection signal="pressed" from="CenterContainer/MainButtons/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="CenterContainer/SettingsMenu/Back" to="." method="_on_back_pressed"]
+[connection signal="toggled" from="CenterContainer/SettingsMenu/Fullscreen" to="." method="_on_fullscreen_toggled"]
+[connection signal="value_changed" from="CenterContainer/SettingsMenu/MainVolSlider" to="." method="_on_main_vol_slider_value_changed"]
+[connection signal="value_changed" from="CenterContainer/SettingsMenu/MusicVolSlider" to="." method="_on_music_vol_slider_value_changed"]
+[connection signal="value_changed" from="CenterContainer/SettingsMenu/SfxVolSlider" to="." method="_on_sfx_vol_slider_value_changed"]
+[connection signal="pressed" from="CenterContainer/CreditsMenu/Back" to="." method="_on_back_pressed"]
