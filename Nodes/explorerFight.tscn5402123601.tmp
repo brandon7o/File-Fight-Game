@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://cfr0qwshqimli"]
+
+[ext_resource type="Script" uid="uid://dd6iwvpgmqyjq" path="res://Nodes/explorer_fight.gd" id="1_j1ors"]
+[ext_resource type="Script" uid="uid://p4g0wnaktmel" path="res://Nodes/storage_bar.gd" id="1_sjtav"]
+
+[sub_resource type="Theme" id="Theme_e01y5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j1ors"]
+
+[node name="ExplorerFight" type="Node2D" unique_id=415811901]
+script = ExtResource("1_j1ors")
+
+[node name="VSeparator" type="VSeparator" parent="." unique_id=1219508916]
+offset_left = 192.0
+offset_top = 108.0
+offset_right = 1728.0
+offset_bottom = 972.0
+theme = SubResource("Theme_e01y5")
+
+[node name="PlayerEnvironment" type="Node2D" parent="VSeparator" unique_id=255415764]
+
+[node name="Storage" type="HBoxContainer" parent="VSeparator/PlayerEnvironment" unique_id=1717919473]
+offset_right = 768.0
+offset_bottom = 73.0
+
+[node name="Label" type="Label" parent="VSeparator/PlayerEnvironment/Storage" unique_id=998582408]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 50
+text = "Storage"
+
+[node name="PlayerStorageBar" type="ProgressBar" parent="VSeparator/PlayerEnvironment/Storage" unique_id=1125488863]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 50
+theme_override_styles/fill = SubResource("StyleBoxFlat_j1ors")
+step = 1.0
+script = ExtResource("1_sjtav")
+
+[node name="EnemyEnvironment" type="Node2D" parent="VSeparator" unique_id=1692152966]
+position = Vector2(768, 0)
+
+[node name="Storage" type="HBoxContainer" parent="VSeparator/EnemyEnvironment" unique_id=387690915]
+offset_right = 768.0
+offset_bottom = 73.0
+
+[node name="Label" type="Label" parent="VSeparator/EnemyEnvironment/Storage" unique_id=1918772477]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 50
+text = "Storage"
+
+[node name="Button" type="Button" parent="VSeparator/EnemyEnvironment/Storage" unique_id=433166433]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Test"
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1097858996]
+z_index = -50
+z_as_relative = false
+offset_left = 192.0
+offset_top = 108.0
+offset_right = 1728.0
+offset_bottom = 972.0
+mouse_filter = 2
+color = Color(0.043039158, 0.04303915, 0.04303915, 1)
+
+[connection signal="value_changed" from="VSeparator/PlayerEnvironment/Storage/PlayerStorageBar" to="." method="_on_player_storage_bar_value_changed"]
+[connection signal="pressed" from="VSeparator/EnemyEnvironment/Storage/Button" to="." method="_on_button_pressed"]

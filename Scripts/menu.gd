@@ -20,6 +20,7 @@ func _on_play_pressed():
 	# if you have a level global var, get that at the start (look above for how that looks)
 	# assuming you have a folder called "Levels" that you store your level nodes in
 	#get_tree().change_scene_to_file(str("res://Levels/", level, ".tscn"))
+	get_tree().change_scene_to_file(str("res://Nodes/explorerFight.tscn"))
 	pass # Replace with function body.
 
 
