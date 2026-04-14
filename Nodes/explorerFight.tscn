@@ -69,24 +69,50 @@ same_column_width = true
 item_0/text = "test"
 item_1/text = "test 2"
 
-[node name="PopupMenu" type="PopupMenu" parent="VSeparator/PlayerEnvironment" unique_id=1960534115]
-oversampling_override = 1.0
-size = Vector2i(121, 89)
-visible = true
-item_count = 3
-item_0/text = "Add"
-item_0/id = 0
-item_1/text = "Delete"
-item_1/id = 1
-item_2/text = "Properties"
-item_2/id = 2
-
 [node name="EnemyEnvironment" type="Node2D" parent="VSeparator" unique_id=1692152966]
 position = Vector2(768, 0)
 
-[node name="Storage" type="HBoxContainer" parent="VSeparator/EnemyEnvironment" unique_id=387690915]
+[node name="VBoxContainer" type="VBoxContainer" parent="VSeparator/EnemyEnvironment" unique_id=1467759874]
 offset_right = 768.0
-offset_bottom = 73.0
+offset_bottom = 864.0
+
+[node name="Storage" type="HBoxContainer" parent="VSeparator/EnemyEnvironment/VBoxContainer" unique_id=407081937]
+layout_mode = 2
+
+[node name="StorageText" type="Label" parent="VSeparator/EnemyEnvironment/VBoxContainer/Storage" unique_id=949774489]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 50
+text = "Storage"
+
+[node name="PlayerStorageBar" type="ProgressBar" parent="VSeparator/EnemyEnvironment/VBoxContainer/Storage" unique_id=1922232814]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 50
+theme_override_styles/fill = SubResource("StyleBoxFlat_j1ors")
+step = 1.0
+script = ExtResource("1_sjtav")
+
+[node name="StorageValue" type="Label" parent="VSeparator/EnemyEnvironment/VBoxContainer/Storage" unique_id=304796682]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "200b/500b"
+
+[node name="Path" type="Label" parent="VSeparator/EnemyEnvironment/VBoxContainer" unique_id=639149195]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "User/Desktop/Protection"
+
+[node name="Tree" type="Tree" parent="VSeparator/EnemyEnvironment/VBoxContainer" unique_id=1721037684]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 4
+column_titles_visible = true
+allow_reselect = true
+allow_rmb_select = true
+allow_search = false
+select_mode = 1
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1097858996]
 z_index = -50
@@ -98,5 +124,19 @@ offset_bottom = 972.0
 mouse_filter = 2
 color = Color(0.043039158, 0.04303915, 0.04303915, 1)
 
+[node name="PopupMenu" type="PopupMenu" parent="." unique_id=1960534115]
+oversampling_override = 1.0
+size = Vector2i(121, 89)
+item_count = 3
+item_0/text = "Add"
+item_0/id = 0
+item_1/text = "Delete"
+item_1/id = 1
+item_2/text = "Properties"
+item_2/id = 2
+
 [connection signal="value_changed" from="VSeparator/PlayerEnvironment/VBoxContainer/Storage/PlayerStorageBar" to="VSeparator/PlayerEnvironment/VBoxContainer/Storage/PlayerStorageBar" method="_on_value_changed"]
 [connection signal="empty_clicked" from="VSeparator/PlayerEnvironment/VBoxContainer/ItemList" to="." method="_on_item_list_empty_clicked"]
+[connection signal="item_activated" from="VSeparator/PlayerEnvironment/VBoxContainer/ItemList" to="." method="_on_item_list_item_activated"]
+[connection signal="item_clicked" from="VSeparator/PlayerEnvironment/VBoxContainer/ItemList" to="." method="_on_item_list_item_clicked"]
+[connection signal="value_changed" from="VSeparator/EnemyEnvironment/VBoxContainer/Storage/PlayerStorageBar" to="VSeparator/EnemyEnvironment/VBoxContainer/Storage/PlayerStorageBar" method="_on_value_changed"]
