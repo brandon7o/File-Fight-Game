@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cekv5xcb61qkd"]
+
+[ext_resource type="Script" uid="uid://p4g0wnaktmel" path="res://Scripts/storage_bar.gd" id="1_lofqw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lni15"]
+
+[node name="Panel" type="Control" unique_id=2085540339]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerStorageBar" type="ProgressBar" parent="." unique_id=1806885322]
+layout_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 50
+theme_override_styles/fill = SubResource("StyleBoxFlat_lni15")
+step = 1.0
+script = ExtResource("1_lofqw")
+
+[node name="StorageText" type="Label" parent="." unique_id=393971057]
+layout_mode = 0
+offset_right = 185.0
+offset_bottom = 69.0
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 50
+text = "Storage"
+
+[node name="StorageValue" type="Label" parent="." unique_id=640458651]
+layout_mode = 0
+
+[connection signal="value_changed" from="PlayerStorageBar" to="PlayerStorageBar" method="_on_value_changed"]

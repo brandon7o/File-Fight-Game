@@ -1,9 +1,14 @@
 [gd_scene format=3 uid="uid://cfr0qwshqimli"]
 
-[ext_resource type="Script" uid="uid://dd6iwvpgmqyjq" path="res://Nodes/explorer_fight.gd" id="1_j1ors"]
-[ext_resource type="Script" uid="uid://p4g0wnaktmel" path="res://Nodes/storage_bar.gd" id="1_sjtav"]
+[ext_resource type="Script" uid="uid://dd6iwvpgmqyjq" path="res://Scripts/explorer_fight.gd" id="1_j1ors"]
+[ext_resource type="Script" uid="uid://p4g0wnaktmel" path="res://Scripts/storage_bar.gd" id="1_sjtav"]
 
 [sub_resource type="Theme" id="Theme_e01y5"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_j1ors"]
+color = Color(1, 1, 1, 1)
+thickness = 5
+vertical = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j1ors"]
 
@@ -16,20 +21,24 @@ offset_top = 108.0
 offset_right = 1728.0
 offset_bottom = 972.0
 theme = SubResource("Theme_e01y5")
+theme_override_styles/separator = SubResource("StyleBoxLine_j1ors")
 
 [node name="PlayerEnvironment" type="Node2D" parent="VSeparator" unique_id=255415764]
 
-[node name="Storage" type="HBoxContainer" parent="VSeparator/PlayerEnvironment" unique_id=1717919473]
+[node name="VBoxContainer" type="VBoxContainer" parent="VSeparator/PlayerEnvironment" unique_id=357026889]
 offset_right = 768.0
-offset_bottom = 73.0
+offset_bottom = 864.0
 
-[node name="Label" type="Label" parent="VSeparator/PlayerEnvironment/Storage" unique_id=998582408]
+[node name="Storage" type="HBoxContainer" parent="VSeparator/PlayerEnvironment/VBoxContainer" unique_id=1717919473]
+layout_mode = 2
+
+[node name="StorageText" type="Label" parent="VSeparator/PlayerEnvironment/VBoxContainer/Storage" unique_id=998582408]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 50
 text = "Storage"
 
-[node name="PlayerStorageBar" type="ProgressBar" parent="VSeparator/PlayerEnvironment/Storage" unique_id=1125488863]
+[node name="PlayerStorageBar" type="ProgressBar" parent="VSeparator/PlayerEnvironment/VBoxContainer/Storage" unique_id=1125488863]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -38,28 +47,39 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_j1ors")
 step = 1.0
 script = ExtResource("1_sjtav")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VSeparator/PlayerEnvironment" unique_id=192135204]
-offset_top = 160.0
-offset_right = 768.0
-offset_bottom = 864.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="VSeparator/PlayerEnvironment/ScrollContainer" unique_id=1089538178]
+[node name="StorageValue" type="Label" parent="VSeparator/PlayerEnvironment/VBoxContainer/Storage" unique_id=878893991]
 layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "200b/500b"
 
-[node name="RightClickMenu" type="MenuButton" parent="VSeparator/PlayerEnvironment" unique_id=2110138171]
-z_index = -5
-offset_top = 160.0
-offset_right = 768.0
-offset_bottom = 864.0
-mouse_filter = 1
-button_mask = 2
+[node name="Path" type="Label" parent="VSeparator/PlayerEnvironment/VBoxContainer" unique_id=2130968295]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "User/Desktop/Protection"
 
-[node name="PopupMenu" type="PopupMenu" parent="VSeparator/PlayerEnvironment/RightClickMenu" unique_id=343753196]
+[node name="ItemList" type="ItemList" parent="VSeparator/PlayerEnvironment/VBoxContainer" unique_id=1700612986]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+select_mode = 1
+allow_reselect = true
+allow_rmb_select = true
+item_count = 2
+same_column_width = true
+item_0/text = "test"
+item_1/text = "test 2"
+
+[node name="PopupMenu" type="PopupMenu" parent="VSeparator/PlayerEnvironment" unique_id=1960534115]
 oversampling_override = 1.0
-position = Vector2i(910, 490)
-item_count = 1
-item_0/text = "Test"
+size = Vector2i(121, 89)
+visible = true
+item_count = 3
+item_0/text = "Add"
 item_0/id = 0
+item_1/text = "Delete"
+item_1/id = 1
+item_2/text = "Properties"
+item_2/id = 2
 
 [node name="EnemyEnvironment" type="Node2D" parent="VSeparator" unique_id=1692152966]
 position = Vector2(768, 0)
@@ -67,12 +87,6 @@ position = Vector2(768, 0)
 [node name="Storage" type="HBoxContainer" parent="VSeparator/EnemyEnvironment" unique_id=387690915]
 offset_right = 768.0
 offset_bottom = 73.0
-
-[node name="Label" type="Label" parent="VSeparator/EnemyEnvironment/Storage" unique_id=1918772477]
-layout_mode = 2
-size_flags_vertical = 1
-theme_override_font_sizes/font_size = 50
-text = "Storage"
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1097858996]
 z_index = -50
@@ -84,4 +98,5 @@ offset_bottom = 972.0
 mouse_filter = 2
 color = Color(0.043039158, 0.04303915, 0.04303915, 1)
 
-[connection signal="value_changed" from="VSeparator/PlayerEnvironment/Storage/PlayerStorageBar" to="VSeparator/PlayerEnvironment/Storage/PlayerStorageBar" method="_on_value_changed"]
+[connection signal="value_changed" from="VSeparator/PlayerEnvironment/VBoxContainer/Storage/PlayerStorageBar" to="VSeparator/PlayerEnvironment/VBoxContainer/Storage/PlayerStorageBar" method="_on_value_changed"]
+[connection signal="empty_clicked" from="VSeparator/PlayerEnvironment/VBoxContainer/ItemList" to="." method="_on_item_list_empty_clicked"]
