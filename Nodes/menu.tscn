@@ -15,6 +15,15 @@ text = "FILE FIGHT"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Version" type="Label" parent="." unique_id=1172858668]
+offset_top = 200.0
+offset_right = 1920.0
+offset_bottom = 700.0
+theme_override_font_sizes/font_size = 100
+text = "Pre-Alpha"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=237055948]
 offset_top = 500.0
 offset_right = 1920.0
@@ -63,6 +72,7 @@ text = "Back"
 [node name="Fullscreen" type="CheckBox" parent="CenterContainer/SettingsMenu" unique_id=1175170494]
 layout_mode = 2
 theme_override_font_sizes/font_size = 75
+button_pressed = true
 text = "Fullscreen
 "
 
@@ -123,8 +133,9 @@ theme_override_constants/separation = 16
 [node name="Label" type="Label" parent="CenterContainer/CreditsMenu" unique_id=1810584752]
 custom_minimum_size = Vector2(1000, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 120
-text = "Here are the credits"
+theme_override_font_sizes/font_size = 75
+text = "Game made by: Brandono
+Engine used: Godot"
 horizontal_alignment = 1
 autowrap_mode = 2
 
