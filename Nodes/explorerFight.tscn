@@ -53,15 +53,30 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "200b/500b"
 
-[node name="Path" type="Label" parent="VSeparator/PlayerEnvironment/VBoxContainer" unique_id=2130968295]
+[node name="HBoxContainer" type="HBoxContainer" parent="VSeparator/PlayerEnvironment/VBoxContainer" unique_id=183253265]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="VSeparator/PlayerEnvironment/VBoxContainer/HBoxContainer" unique_id=1902499511]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
+disabled = true
+text = "<-"
+
+[node name="ForwardButton" type="Button" parent="VSeparator/PlayerEnvironment/VBoxContainer/HBoxContainer" unique_id=1579940700]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+disabled = true
+text = "->"
+
+[node name="Path" type="Label" parent="VSeparator/PlayerEnvironment/VBoxContainer/HBoxContainer" unique_id=2130968295]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
 text = "User/Desktop/Protection"
 
-[node name="FolderFileSpace" type="Node2D" parent="VSeparator/PlayerEnvironment/VBoxContainer" unique_id=2005309493]
+[node name="FolderFileSpacePlayer" type="Node2D" parent="VSeparator/PlayerEnvironment/VBoxContainer" unique_id=2005309493]
 position = Vector2(0, 136)
 
-[node name="ItemList" type="ItemList" parent="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpace" unique_id=1700612986]
+[node name="ItemList" type="ItemList" parent="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpacePlayer" unique_id=1700612986]
 offset_right = 765.0
 offset_bottom = 728.0
 size_flags_vertical = 3
@@ -72,12 +87,12 @@ allow_rmb_select = true
 item_count = 1
 same_column_width = true
 
-[node name="PopupMenu" type="PopupMenu" parent="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpace" unique_id=1960534115]
+[node name="PopupMenu" type="PopupMenu" parent="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpacePlayer" unique_id=1960534115]
 oversampling_override = 1.0
 size = Vector2i(40, 8)
 allow_search = false
 
-[node name="AddPopup" type="PopupMenu" parent="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpace/PopupMenu" unique_id=76243288]
+[node name="AddPopup" type="PopupMenu" parent="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpacePlayer/PopupMenu" unique_id=76243288]
 allow_search = false
 
 [node name="Player" type="Node2D" parent="VSeparator/PlayerEnvironment" unique_id=1879066261]
@@ -129,11 +144,13 @@ mouse_filter = 2
 color = Color(0.043039158, 0.04303915, 0.04303915, 1)
 
 [connection signal="value_changed" from="VSeparator/PlayerEnvironment/VBoxContainer/Storage/PlayerStorageBar" to="VSeparator/PlayerEnvironment/VBoxContainer/Storage/PlayerStorageBar" method="_on_value_changed"]
-[connection signal="empty_clicked" from="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpace/ItemList" to="." method="_on_item_list_empty_clicked"]
-[connection signal="item_activated" from="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpace/ItemList" to="." method="_on_item_list_item_activated"]
-[connection signal="item_clicked" from="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpace/ItemList" to="." method="_on_item_list_item_clicked"]
-[connection signal="multi_selected" from="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpace/ItemList" to="." method="_on_item_list_multi_selected"]
-[connection signal="id_pressed" from="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpace/PopupMenu" to="." method="_on_popup_menu_id_pressed"]
-[connection signal="about_to_popup" from="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpace/PopupMenu/AddPopup" to="." method="_on_add_popup_about_to_popup"]
-[connection signal="index_pressed" from="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpace/PopupMenu/AddPopup" to="." method="_on_add_popup_index_pressed"]
+[connection signal="pressed" from="VSeparator/PlayerEnvironment/VBoxContainer/HBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="VSeparator/PlayerEnvironment/VBoxContainer/HBoxContainer/ForwardButton" to="." method="_on_forward_button_pressed"]
+[connection signal="empty_clicked" from="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpacePlayer/ItemList" to="." method="_on_item_list_empty_clicked"]
+[connection signal="item_activated" from="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpacePlayer/ItemList" to="." method="_on_item_list_item_activated"]
+[connection signal="item_clicked" from="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpacePlayer/ItemList" to="." method="_on_item_list_item_clicked"]
+[connection signal="multi_selected" from="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpacePlayer/ItemList" to="." method="_on_item_list_multi_selected"]
+[connection signal="id_pressed" from="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpacePlayer/PopupMenu" to="." method="_on_popup_menu_id_pressed"]
+[connection signal="about_to_popup" from="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpacePlayer/PopupMenu/AddPopup" to="." method="_on_add_popup_about_to_popup"]
+[connection signal="index_pressed" from="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpacePlayer/PopupMenu/AddPopup" to="." method="_on_add_popup_index_pressed"]
 [connection signal="value_changed" from="VSeparator/EnemyEnvironment/VBoxContainer/Storage/PlayerStorageBar" to="VSeparator/EnemyEnvironment/VBoxContainer/Storage/PlayerStorageBar" method="_on_value_changed"]
