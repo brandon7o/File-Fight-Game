@@ -11,6 +11,7 @@ var backButton
 var forwardButton
 var player
 var renameVar
+var renameable
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -142,13 +143,16 @@ func _on_add_popup_index_pressed(index):
 		#In other words, it propagates up the tree via it's parents till it hits a MOUSE STOP node
 		
 		#TODO Not done yet, but will take user input via the LineEdit and set that 
+		#Place naming system in middle of screen, 
 		$LineEdit.visible = true
 		$LineEdit.global_position = get_viewport_rect().size / 2 - $LineEdit.size / 2
 		$LineEdit.placeholder_text = "Folder" + (str)(num)
-		#await $LineEdit.text_submitted
-		await $LineEdit.text_submitted
+		#wait for an accepted name for the folder
+		await $LineEdit.rename_accepted
+		#adds folder with renamed name to the current folder's itemlist
 		Globals.currentFolder.add_item(renameVar, Globals.folderTexture)
 		#$ItemList.duplicate()
+		#adds itemlist with renamed name to the current itemlist's children
 		var newFolder = Globals.currentFolder.duplicate(DUPLICATE_SIGNALS)
 		Globals.currentFolder.add_child(newFolder)
 		disableFolder(newFolder)
@@ -251,20 +255,30 @@ func disableFolder(node):
 #TODO Implement these functions for renaming
 #Called when editing is toggled
 func _on_line_edit_editing_toggled(toggled_on):
-	pass # Replace with function body.
+	var used = false
+	if (Globals.currentFolder.item_count != 0):
+		for index in range(Globals.currentFolder.item_count):
+			if $LineEdit.placeholder_text == Globals.currentFolder.get_item_text(index):
+				used = true
+				$LineEdit.self_modulate = Color(255,0,0)
+				renameable = false
+		if !used:
+			$LineEdit.self_modulate = Color(0,128,0)
+			renameable = true
 
 #called when the text changes
 func _on_line_edit_text_changed(new_text):
 	var used = false
 	if (Globals.currentFolder.item_count != 0):
 		for index in range(Globals.currentFolder.item_count):
-			print(Globals.currentFolder.get_child(index).name)
-			if Globals.currentFolder.get_child(index).name == new_text:
+			if Globals.currentFolder.get_item_text(index) == new_text:
 				#Name is already a folder
 				used = true
 				$LineEdit.self_modulate = Color(255,0,0)
+				renameable = false
 		if !used:
 			$LineEdit.self_modulate = Color(0,128,0)
+			renameable = true
 
 #Idea, class variable that checks if current text is useable in above function
 #Then idk
@@ -273,12 +287,15 @@ func _on_line_edit_text_changed(new_text):
 func _on_line_edit_text_submitted(new_text):
 	#check if text is already a folder
 	var passed = true
-	var whilePassed = false
+	#var whilePassed = false
 	print(Globals.currentFolder.item_count)
 	if (Globals.currentFolder.item_count != 0):
+		#for index in range(Globals.currentFolder.item_count):
+			#print(Globals.currentFolder.get_child(index).name)
+			#if Globals.currentFolder.get_child(index).name == new_text:
+				#passed = false
 		for index in range(Globals.currentFolder.item_count):
-			print(Globals.currentFolder.get_child(index).name)
-			if Globals.currentFolder.get_child(index).name == new_text:
+			if Globals.currentFolder.get_item_text(index) == new_text:
 				passed = false
 	if passed == true:
 		#Add rename implementation here
@@ -287,7 +304,8 @@ func _on_line_edit_text_submitted(new_text):
 		renameVar = new_text
 		print("passed text")
 		$LineEdit.visible = false
-		whilePassed = true
+		$LineEdit.emit_signal("rename_accepted")
+		#whilePassed = true
 	else:
 		await $LineEdit.text_submitted
 		print("failed text")
