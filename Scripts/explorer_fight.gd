@@ -16,7 +16,8 @@ extends Node2D
 ### = DONE
 ###Add a way to sort the files/folders whenever one is added
 #Add a way to drag files into folders
-##Add naming for folders and files when you add them, also f2 can rename files/folders
+##Add naming for folders and files when you add them
+#Maybe we dont add this? Just allow them to rename when they create something #Allow f2 button to rename files or folders
 ###Add a function to make the variable "currentFolder" know and recognise the current folder,
 ###replacing most variables of mainPlayerFolder/Space with this variable or close relatives
 ###-Add a back button functionality that goes back one folder and is unselectable in mainPlayerFolder
@@ -27,6 +28,7 @@ extends Node2D
 #Add simple enemy and give it custom-made "ai"
 #Add UI for player HP and enemy HP
 #Add win-loss screen
+
 
 #START HERE: WHAT ELSE IS NEEDED FOR ALPHA
 #Upgrade screen that gives player new files

@@ -12,6 +12,9 @@ var forwardButton
 var player
 var renameVar
 var renameable
+@onready var cutClipboard = []
+var cutClipboardOrigin
+var currentIndex
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -40,6 +43,9 @@ func _on_item_list_empty_clicked(at_position, mouse_button_index):
 		popupMenu.clear()
 		popupMenu.add_submenu_node_item("Add", addPopup, Globals.addID)
 		popupMenu.add_item("Properties", Globals.propertiesID)
+		if !cutClipboard.is_empty():
+			currentIndex = -1
+			popupMenu.add_item("Paste", Globals.pasteInID)
 		popupMenu.position = get_global_mouse_position()
 		popupMenu.reset_size()
 		popupMenu.visible = true
@@ -76,29 +82,41 @@ func _on_item_list_item_activated(index):
 func _on_item_list_item_clicked(index, at_position, mouse_button_index):
 	if mouse_button_index == MOUSE_BUTTON_RIGHT:
 		#Different popupMenu for file or folder
+		#File
 		if Globals.currentFolder.get_item_icon(index) == Globals.fileTexture:
 			#Sets the popup menu, moves it to the mouse position, and makes it visible
 			popupMenu.clear()
 			popupMenu.add_item("Delete", Globals.deleteID)
 			popupMenu.add_item("Properties", Globals.propertiesID)
+			popupMenu.add_item("Cut", Globals.cutID)
 			popupMenu.position = get_global_mouse_position()
 			popupMenu.reset_size()
 			popupMenu.visible = true
-			Globals.currentFolder.deselect_all()
-			Globals.currentFolder.select(index)
+			if !Input.is_key_pressed(KEY_SHIFT):
+				#Globals.currentFolder.deselect_all()
+				#Globals.currentFolder.select(index)
+				pass
+		#Folder
 		else:
 			popupMenu.clear()
 			popupMenu.add_item("Properties", Globals.propertiesID)
+			if !cutClipboard.is_empty():
+				currentIndex = index
+				popupMenu.add_item("Paste", Globals.pasteSelID)
 			popupMenu.position = get_global_mouse_position()
 			popupMenu.reset_size()
 			popupMenu.visible = true
-			Globals.currentFolder.deselect_all()
-			Globals.currentFolder.select(index)
+			if !Input.is_key_pressed(KEY_SHIFT):
+				#Globals.currentFolder.deselect_all()
+				#Globals.currentFolder.select(index)
+				pass
 	if mouse_button_index == MOUSE_BUTTON_LEFT:
 		pass
 
 #TODO add drag functionality here maybe?
+#Called whenever one or more item is selected
 func _on_item_list_multi_selected(index, selected):
+	
 	pass # Replace with function body.
 
 #When a button is pressed on the popupMenu
@@ -110,7 +128,78 @@ func _on_popup_menu_id_pressed(id):
 	#TODO complete properties code
 	elif  id == Globals.propertiesID:
 		pass
+	elif id == Globals.cutID:
+		cutClipboard.clear()
+		for i in Globals.currentFolder.get_selected_items():
+			cutClipboard.append({
+				"text": Globals.currentFolder.get_item_text(i),
+				"icon": Globals.currentFolder.get_item_icon(i),
+				"metadata": Globals.currentFolder.get_item_metadata(i)
+			})
+			cutClipboardOrigin = Globals.currentFolder
+	#Called when you paste something in the current folder you are in
+	elif id == Globals.pasteInID:
+		paste_in_folder()
+		pass
+	#Called when you paste something in the selected folder item in the itemlist
+	elif id == Globals.pasteSelID:
+		paste_in_selected_folder()
+		pass
+	#elif id == Globals.pasteID:
+		##if we paste in the same folder we cut from, we just clear cutClipboard
+		#if cutClipboardOrigin == Globals.currentFolder.name:
+			#cutClipboard.clear()
+		#elif 
+			#pass
+		##else we get the current folder we are in and paste everything in there
+		##then we delete every selected item we had USING THE METADATA
+		#else:
+			#$Protection.get_item_text()
+			#var currentFolderName = Globals.currentFolder.get_item_text
+			#for child in $Protection.get_children():
+				#if child.name == currentFolderName:
+					#for item in cutClipboard:
+						#if item["text"] != "":
+							#var index = child.add_item(item["text"], item["icon"])
+							#child.set_item_metadata(index, item["metadata"])
+
+#function for pasting into currentFolder
+func paste_in_folder():
+	#if we paste in the same folder we cut from, we just clear cutClipboard
+		if cutClipboardOrigin.name == Globals.currentFolder.name:
+			cutClipboard.clear()
+		#else we paste the contents into the current folder
+		else:
+			for item in cutClipboard:
+				#perhaps we instead paste every item in, then double check nothing is
+				#the same name, if so, we add a number to the newest ones (2,3,4,5,...)
+				if item["text"] != "":#and item["text"] != any other item name
+					var index = Globals.currentFolder.add_item(item["text"], item["icon"])
+					Globals.currentFolder.set_item_metadata(index, item["metadata"])
+				#As we paste, we delete the items from the origin folder
+				for index in range(cutClipboardOrigin.item_count):
+					if cutClipboardOrigin.get_item_text(index) == item["text"]:
+						cutClipboardOrigin.remove_item(index)
+			cutClipboard.clear()
+			
+
+#function for pasting into selected folder
+func paste_in_selected_folder():
+	var selectionArr = Globals.currentFolder.get_selected_items()
+	var ind = selectionArr[0]
+	for child in Globals.currentFolder.get_children():
+		if child.name == Globals.currentFolder.get_item_text(ind):
+			for item in cutClipboard:
+				if item["text"] != "":#and item["text"] != any other item name
+					var index = child.add_item(item["text"], item["icon"])
+					child.set_item_metadata(index, item["metadata"])
+				#As we paste, we delete the items from the origin folder
+				for index in range(cutClipboardOrigin.item_count):
+					if cutClipboardOrigin.get_item_text(index) == item["text"]:
+						cutClipboardOrigin.remove_item(index)
+	cutClipboard.clear()
 	pass
+
 
 #When the add popup is about to add a file/folder
 func _on_add_popup_index_pressed(index):
@@ -158,6 +247,7 @@ func _on_add_popup_index_pressed(index):
 		disableFolder(newFolder)
 		newFolder.name = renameVar
 		newFolder.clear()
+		newFolder.set_script("res://Scripts/folder.gd")
 		sort_by_alphabetical()
 		
 	#Adds file of correct name to directory
@@ -175,7 +265,6 @@ func _on_add_popup_about_to_popup():
 		addPopup.add_item("Folder", Globals.folderID)
 	for str in player.filesArray:
 		addPopup.add_item(str, Globals.fileID)
-
 
 #sorting functions based on what is needed
 #TODO using mainFolder to see methdos, change to currfolder when done
@@ -256,14 +345,16 @@ func disableFolder(node):
 #Called when editing is toggled
 func _on_line_edit_editing_toggled(toggled_on):
 	var used = false
-	if (Globals.currentFolder.item_count != 0):
+	if (Globals.currentFolder.item_count != 0) and toggled_on:
 		for index in range(Globals.currentFolder.item_count):
 			if $LineEdit.placeholder_text == Globals.currentFolder.get_item_text(index):
 				used = true
 				$LineEdit.self_modulate = Color(255,0,0)
+				$LineEdit.keep_editing_on_text_submit = true
 				renameable = false
 		if !used:
 			$LineEdit.self_modulate = Color(0,128,0)
+			$LineEdit.keep_editing_on_text_submit = false
 			renameable = true
 
 #called when the text changes
@@ -275,13 +366,12 @@ func _on_line_edit_text_changed(new_text):
 				#Name is already a folder
 				used = true
 				$LineEdit.self_modulate = Color(255,0,0)
+				$LineEdit.keep_editing_on_text_submit = true
 				renameable = false
 		if !used:
 			$LineEdit.self_modulate = Color(0,128,0)
+			$LineEdit.keep_editing_on_text_submit = false
 			renameable = true
-
-#Idea, class variable that checks if current text is useable in above function
-#Then idk
 
 #called when the text is submitted
 func _on_line_edit_text_submitted(new_text):
@@ -311,4 +401,4 @@ func _on_line_edit_text_submitted(new_text):
 		print("failed text")
 		
 		#Add fail Implementation here
-	
+		

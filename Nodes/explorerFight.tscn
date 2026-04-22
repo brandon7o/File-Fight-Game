@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cfdvboxd8o21x" path="res://Scripts/player.gd" id="3_ffda3"]
 [ext_resource type="Script" uid="uid://ge61maou25qh" path="res://Scripts/folder_file_space_player.gd" id="4_8mhm2"]
 [ext_resource type="Script" uid="uid://cru47e1t1iak1" path="res://Scripts/line_edit.gd" id="5_sgy1q"]
+[ext_resource type="Script" uid="uid://bkamvkhrjljc4" path="res://Scripts/folder.gd" id="5_xei57"]
 
 [sub_resource type="Theme" id="Theme_e01y5"]
 
@@ -90,6 +91,7 @@ select_mode = 1
 allow_reselect = true
 allow_rmb_select = true
 same_column_width = true
+script = ExtResource("5_xei57")
 
 [node name="PopupMenu" type="PopupMenu" parent="VSeparator/PlayerEnvironment/VBoxContainer/FolderFileSpacePlayer" unique_id=1960534115]
 oversampling_override = 1.0
@@ -115,10 +117,11 @@ offset_right = 200.0
 offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
+theme_override_colors/font_color = Color(18.892157, 18.892157, 18.892157, 1)
 alignment = 1
 max_length = 20
 context_menu_enabled = false
+emoji_menu_enabled = false
 backspace_deletes_composite_character_enabled = true
 clear_button_enabled = true
 middle_mouse_paste_enabled = false

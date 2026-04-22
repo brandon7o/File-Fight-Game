@@ -5,6 +5,9 @@ extends Node
 @onready var addID = 0
 @onready var deleteID = 1
 @onready var propertiesID = 2
+@onready var cutID = 3
+@onready var pasteInID = 4
+@onready var pasteSelID = 5
 @onready var fileTexture
 @onready var folderTexture
 @onready var currentFolder
